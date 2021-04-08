@@ -39,6 +39,13 @@ pointLight.position.y = 3;
 pointLight.position.z = 4;
 scene.add(pointLight);
 
+const newPointLight = new THREE.PointLight(0xff0000, 2);
+newPointLight.position.x = 2;
+newPointLight.position.y = 3;
+newPointLight.position.z = 4;
+scene.add(newPointLight);
+
+
 /**
  * Sizes
  */
