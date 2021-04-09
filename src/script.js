@@ -5,7 +5,7 @@ import * as dat from "dat.gui";
 
 // Textures
 const newTexture = new THREE.TextureLoader();
-const textureLoad = newTexture.load('/textures/NormalMap(2).png');
+const textureLoad = newTexture.load('/textures/NormalMap(1).png');
 
 // Debug
 const gui = new dat.GUI();
@@ -17,7 +17,7 @@ const canvas = document.querySelector("canvas.webgl");
 const scene = new THREE.Scene();
 
 // Objects
-const geometry = new THREE.SphereBufferGeometry(0.5, 32, 32);
+const geometry = new THREE.SphereBufferGeometry(0.5, 64, 64);
 
 // Materials
 
@@ -40,11 +40,16 @@ pointLight.position.z = 4;
 scene.add(pointLight);
 
 const newPointLight = new THREE.PointLight(0xff0000, 2);
-newPointLight.position.x = 2;
-newPointLight.position.y = 3;
-newPointLight.position.z = 4;
+// newPointLight.position.x = 2;
+// newPointLight.position.y = 3;
+// newPointLight.position.z = 4;
+newPointLight.position.set(1,1,1)
 scene.add(newPointLight);
 
+gui.add(newPointLight.position, "x").min(-3).max(3).step(.01);
+gui.add(newPointLight.position, "y").min(-6).max(6).step(0.01);
+gui.add(newPointLight.position, "z").min(-3).max(3).step(0.01);
+gui.add(newPointLight, "intensity").min(-6).max(3).step(0.01);
 
 /**
  * Sizes
@@ -108,7 +113,7 @@ const animate = () => {
 
   // Update objects
   sphere.rotation.y = 0.5 * elapsedTime;
-//   sphere.rotation.x = 0.5 * elapsedTime;
+  sphere.rotation.x = 0.5 * elapsedTime;
 
   // Update Orbital Controls
   // controls.update()
