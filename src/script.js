@@ -5,7 +5,7 @@ import * as dat from "dat.gui";
 
 // Textures
 const newTexture = new THREE.TextureLoader();
-const textureLoad = newTexture.load('/textures/NormalMap(1).png');
+const textureLoad = newTexture.load('/textures/NormalMap(2).jpg');
 
 // Debug
 const gui = new dat.GUI();
@@ -23,7 +23,7 @@ const geometry = new THREE.SphereBufferGeometry(0.5, 64, 64);
 
 const material = new THREE.MeshStandardMaterial();
 material.roughness = 0.2
-material.metalness = 0.7
+material.metalness = .1
 material.color = new THREE.Color(0x292929);
 material.normalMap = textureLoad;
 
@@ -31,25 +31,57 @@ material.normalMap = textureLoad;
 const sphere = new THREE.Mesh(geometry, material);
 scene.add(sphere);
 
-// Lights
+// Light 1
 
-const pointLight = new THREE.PointLight(0xffffff, 0.1);
-pointLight.position.x = 2;
-pointLight.position.y = 3;
-pointLight.position.z = 4;
-scene.add(pointLight);
+// const pointLight = new THREE.PointLight(0xffffff, 0.1);
+// pointLight.position.x = 2;
+// pointLight.position.y = 3;
+// pointLight.position.z = 4;
+// scene.add(pointLight);
 
+
+
+//Light 2
 const newPointLight = new THREE.PointLight(0xff0000, 2);
-// newPointLight.position.x = 2;
-// newPointLight.position.y = 3;
-// newPointLight.position.z = 4;
 newPointLight.position.set(1,1,1)
+newPointLight.intensity = 10
 scene.add(newPointLight);
 
-gui.add(newPointLight.position, "x").min(-3).max(3).step(.01);
-gui.add(newPointLight.position, "y").min(-6).max(6).step(0.01);
-gui.add(newPointLight.position, "z").min(-3).max(3).step(0.01);
-gui.add(newPointLight, "intensity").min(-6).max(3).step(0.01);
+const light2 = gui.addFolder("Light 2") 
+
+light2.add(newPointLight.position, "x").min(-3).max(3).step(0.01);
+light2.add(newPointLight.position, "y").min(-6).max(6).step(0.01);
+light2.add(newPointLight.position, "z").min(-3).max(3).step(0.01);
+light2.add(newPointLight, "intensity").min(-6).max(10).step(0.01);
+
+const lightHelper = new THREE.PointLightHelper(newPointLight, 1)
+scene.add(lightHelper)
+
+// Light 3
+
+const newPointLight2 = new THREE.PointLight(0xff0000, 2);
+newPointLight2.position.set(1, 1, 1);
+newPointLight2.intensity = 10;
+scene.add(newPointLight2);
+
+const light3 = gui.addFolder("Light 3"); 
+
+light3.add(newPointLight2.position, "x").min(-3).max(3).step(0.01);
+light3.add(newPointLight2.position, "y").min(-6).max(6).step(0.01);
+light3.add(newPointLight2.position, "z").min(-3).max(3).step(0.01);
+light3.add(newPointLight, "intensity").min(0).max(10).step(0.01);
+
+const light3Color = {color : 0xff0000}
+light3.addColor(light3Color, "color").onChange(() => {
+    newPointLight2.color.set(light3Color.color)
+})
+
+
+const lightHelper2 = new THREE.PointLightHelper(newPointLight2, 1);
+scene.add(lightHelper2);
+
+// Light helper
+
 
 /**
  * Sizes
