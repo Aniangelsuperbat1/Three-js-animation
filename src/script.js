@@ -2,9 +2,7 @@ import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as dat from "dat.gui";
-// import { ObjectControls } from "threeJS-object-controls";
 import { TrackballControls } from "three/examples/jsm/controls/TrackballControls.js";
-// import { Scene, WebGLRenderer } from "three";
 
 // Textures
 const newTexture = new THREE.TextureLoader().load(
@@ -22,10 +20,18 @@ const newTexture4 = new THREE.TextureLoader().load(
 );
 
 const newTexture5 = new THREE.TextureLoader().load(
-  "/textures/galaxy_starfield.png"
+  "/textures/galaxy.jpg"
 );
 
-const newTexture6 = new THREE.TextureLoader().load("/textures/moon_texture.jpg")
+const newTexture6 = new THREE.TextureLoader().load(
+  "/textures/moon_texture.jpg"
+);
+
+const newTexture7 = new THREE.TextureLoader().load("/textures/inline_image_preview.jpg")
+
+const newTexture8 = new THREE.TextureLoader().load(
+  "/textures/galaxy_starfield.png"
+);
 
 // Debug
 const gui = new dat.GUI();
@@ -42,7 +48,6 @@ const geometry = new THREE.SphereBufferGeometry(1, 64, 64);
 // Materials
 
 const material = new THREE.MeshPhongMaterial();
-material.color = new THREE.Color(0x292929);
 material.bumpMap = newTexture2;
 material.map = newTexture;
 material.bumpScale = 0.1;
@@ -57,8 +62,6 @@ scene.add(sphere);
 // New Sphere
 const geometry1 = new THREE.SphereBufferGeometry(0.5, 64, 64);
 
-// Materials
-
 const material1 = new THREE.MeshPhongMaterial();
 material1.color = new THREE.Color(0x292929);
 material1.map = newTexture;
@@ -66,11 +69,10 @@ material1.bumpMap = newTexture2;
 material1.bumpScale = 0.05;
 material1.specularMap = newTexture3;
 
-// Mesh
 const sphere1 = new THREE.Mesh(geometry1, material1);
-sphere1.position.y = 0;
-sphere1.position.x = 0;
-sphere1.position.z = 0;
+// sphere1.position.y = 0;
+// sphere1.position.x = 0;
+// sphere1.position.z = 0;
 
 scene.add(sphere1);
 
@@ -78,38 +80,45 @@ gui.add(sphere1.position, "x").min(0).max(10).step(0.01);
 gui.add(sphere1.position, "y").min(0).max(10).step(0.01);
 gui.add(sphere1.position, "z").min(0).max(10).step(0.01);
 
-// scene.background = newTexture5;
+scene.background = newTexture5;
 
-// New Sphere 
-const starGeometry = new THREE.SphereGeometry(2, 50, 50);
+// New Sphere
+const starGeometry = new THREE.SphereGeometry(5, 50, 50);
 const starMaterial = new THREE.MeshPhongMaterial();
-starMaterial.map = newTexture5
-starMaterial.side = THREE.DoubleSide;
-starMaterial.shininess = 0
+starMaterial.map = newTexture8;
+starMaterial.side = THREE.BackSide;
+starMaterial.shininess = 0;
 const starField = new THREE.Mesh(starGeometry, starMaterial);
 scene.add(starField);
 
-scene.add(new THREE.AmbientLight(0x333333));
+const geometry5 = new THREE.SphereGeometry(2, 32, 32);
+const material5 = new THREE.MeshBasicMaterial();
+material5.map = newTexture7;
+material5.side = THREE.BackSide;
+const mesh = new THREE.Mesh(geometry5, material5);
+scene.add(mesh)
 
-// New Sphere 
-const moonGeometry = new THREE.SphereGeometry(3, 32, 32);
-const moonMaterial = new THREE.MeshPhongMaterial();
-moonMaterial.map = newTexture6
-const moon = new THREE.Mesh(moonGeometry, moonMaterial);
-// moon.position.set(35, 0, 0);
-scene.add(moon);
+scene.add(new THREE.AmbientLight(0x999999, 5));
 
-const light = new THREE.DirectionalLight(0xffffff, 7);
-light.position.set(5, 3, 5);
+// New Sphere
+// const moonGeometry = new THREE.SphereGeometry(3, 32, 32);
+// const moonMaterial = new THREE.MeshPhongMaterial();
+// moonMaterial.map = newTexture6;
+// const moon = new THREE.Mesh(moonGeometry, moonMaterial);
+// // moon.position.set(35, 0, 0);
+// scene.add(moon);
+
+const light = new THREE.DirectionalLight(0xffffff, 5);
+light.position.set(1, 50, 50);
 scene.add(light);
 
 // //Light 1
 
-// const pointLight = new THREE.PointLight(0xffffff, 0.1);
-// pointLight.position.x = 2;
-// pointLight.position.y = 3;
-// pointLight.position.z = 4;
-// scene.add(pointLight);
+const pointLight = new THREE.PointLight(0xffffff, 0.1);
+pointLight.position.x = 2;
+pointLight.position.y = 3;
+pointLight.position.z = 4;
+scene.add(pointLight);
 
 // //Light 2
 // const newPointLight = new THREE.PointLight(0xffffff);
@@ -195,8 +204,8 @@ camera.position.z = 2;
 scene.add(camera);
 
 //Controls
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
 
 /**
  * Renderer
@@ -214,9 +223,9 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 const clock = new THREE.Clock();
 
-const r = 35;
-const theta = 0;
-const dTheta = (2 * Math.PI) / 1000;
+// const r = 35;
+// const theta = 0;
+// const dTheta = (2 * Math.PI) / 1000;
 
 const animate = () => {
   const elapsedTime = clock.getElapsedTime();
@@ -228,9 +237,11 @@ const animate = () => {
   sphere1.rotation.y = 0.5 * elapsedTime;
   // sphere1.rotation.x = 1 * elapsedTime;
 
-  starField.rotation.y = .1 * elapsedTime;
+  starField.rotation.y = 0.5 * elapsedTime;
 
-  moon.rotation.y = 0.1 * elapsedTime;
+  mesh.rotation.y = 0.5 * elapsedTime;
+
+  // moon.rotation.y = 0.1 * elapsedTime;
 
   // theta += dTheta;
   // moon.position.x = r * Math.cos(theta);
