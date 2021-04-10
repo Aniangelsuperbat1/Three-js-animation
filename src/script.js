@@ -20,7 +20,7 @@ const newTexture4 = new THREE.TextureLoader().load(
 );
 
 const newTexture5 = new THREE.TextureLoader().load(
-  "/textures/galaxy.jpg"
+  "/textures/Primordial-galaxy-696x392.jpg"
 );
 
 const newTexture6 = new THREE.TextureLoader().load(
@@ -30,7 +30,7 @@ const newTexture6 = new THREE.TextureLoader().load(
 const newTexture7 = new THREE.TextureLoader().load("/textures/inline_image_preview.jpg")
 
 const newTexture8 = new THREE.TextureLoader().load(
-  "/textures/galaxy_starfield.png"
+  "/textures/galaxy.jpg"
 );
 
 // Debug
@@ -114,13 +114,13 @@ scene.add(light);
 
 // //Light 1
 
-const pointLight = new THREE.PointLight(0xffffff, 0.1);
-pointLight.position.x = 2;
-pointLight.position.y = 3;
-pointLight.position.z = 4;
-scene.add(pointLight);
+// const pointLight = new THREE.PointLight(0xffffff, 0.1);
+// pointLight.position.x = 2;
+// pointLight.position.y = 3;
+// pointLight.position.z = 4;
+// scene.add(pointLight);
 
-// //Light 2
+//Light 2
 // const newPointLight = new THREE.PointLight(0xffffff);
 // newPointLight.position.set(10, 50, 50);
 // newPointLight.intensity = 10;
