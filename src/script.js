@@ -25,6 +25,8 @@ const newTexture5 = new THREE.TextureLoader().load(
   "/textures/galaxy_starfield.png"
 );
 
+const newTexture6 = new THREE.TextureLoader().load("/textures/moon_texture.jpg")
+
 // Debug
 const gui = new dat.GUI();
 
@@ -88,6 +90,14 @@ const starField = new THREE.Mesh(starGeometry, starMaterial);
 scene.add(starField);
 
 scene.add(new THREE.AmbientLight(0x333333));
+
+// New Sphere 
+const moonGeometry = new THREE.SphereGeometry(3, 32, 32);
+const moonMaterial = new THREE.MeshPhongMaterial();
+moonMaterial.map = newTexture6
+const moon = new THREE.Mesh(moonGeometry, moonMaterial);
+// moon.position.set(35, 0, 0);
+scene.add(moon);
 
 const light = new THREE.DirectionalLight(0xffffff, 7);
 light.position.set(5, 3, 5);
@@ -202,8 +212,11 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
  * Animate
  */
 
-
 const clock = new THREE.Clock();
+
+const r = 35;
+const theta = 0;
+const dTheta = (2 * Math.PI) / 1000;
 
 const animate = () => {
   const elapsedTime = clock.getElapsedTime();
@@ -216,6 +229,12 @@ const animate = () => {
   // sphere1.rotation.x = 1 * elapsedTime;
 
   starField.rotation.y = .1 * elapsedTime;
+
+  moon.rotation.y = 0.1 * elapsedTime;
+
+  // theta += dTheta;
+  // moon.position.x = r * Math.cos(theta);
+  // moon.position.z = r * Math.sin(theta);
 
   // Update Orbital Controls
   // controls.update();
