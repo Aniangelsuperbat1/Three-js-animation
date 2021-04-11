@@ -35,6 +35,8 @@ const newTexture8 = new THREE.TextureLoader().load(
 
 const newTexture9 = new THREE.TextureLoader().load("/textures/NormalMap(3).png")
 
+
+
 // Debug
 const gui = new dat.GUI();
 
@@ -44,11 +46,35 @@ const canvas = document.querySelector("canvas.webgl");
 // Scene
 const scene = new THREE.Scene();
 
+// Background Scene
+scene.background = newTexture5;
+
 // Objects
-const geometry = new THREE.SphereBufferGeometry(1, 64, 64);
+
+//New Sphere
+const moonGeometry = new THREE.SphereGeometry(.25, 32, 32);
 
 // Materials
 
+const moonMaterial = new THREE.MeshPhongMaterial();
+moonMaterial.map = newTexture6;
+moonMaterial.bumpMap = newTexture9;
+moonMaterial.bumpScale = 10
+moonMaterial.roughness = 1
+moonMaterial.color = new THREE.Color(0x202020);
+
+const moon = new THREE.Mesh(moonGeometry, moonMaterial);
+moon.position.set(-1.53, .9, 0);
+scene.add(moon);
+
+const moonSphere = gui.addFolder("moon");
+
+moonSphere.add(moon.position, "x").min(-10).max(10).step(0.01);
+moonSphere.add(moon.position, "y").min(-10).max(10).step(0.01);
+moonSphere.add(moon.position, "z").min(-10).max(10).step(0.01);
+
+// New Sphere
+const geometry = new THREE.SphereBufferGeometry(1, 64, 64);
 const material = new THREE.MeshPhongMaterial();
 material.bumpMap = newTexture2;
 material.map = newTexture;
@@ -59,6 +85,7 @@ material.transparent = true;
 
 // Mesh
 const sphere = new THREE.Mesh(geometry, material);
+sphere.add(moon)
 scene.add(sphere);
 
 // New Sphere
@@ -84,8 +111,6 @@ firstSphere.add(sphere1.position, "x").min(-10).max(10).step(0.01);
 firstSphere.add(sphere1.position, "y").min(-10).max(10).step(0.01);
 firstSphere.add(sphere1.position, "z").min(-10).max(10).step(0.01);
 
-scene.background = newTexture5;
-
 // New Sphere
 const starGeometry = new THREE.SphereGeometry(5, 50, 50);
 const starMaterial = new THREE.MeshPhongMaterial();
@@ -103,24 +128,6 @@ const mesh = new THREE.Mesh(geometry5, material5);
 scene.add(mesh)
 
 scene.add(new THREE.AmbientLight(0x999999, 5));
-
-//New Sphere
-const moonGeometry = new THREE.SphereGeometry(.25, 32, 32);
-const moonMaterial = new THREE.MeshPhongMaterial();
-moonMaterial.map = newTexture6;
-moonMaterial.bumpMap = newTexture9;
-moonMaterial.bumpScale = 10
-moonMaterial.roughness = 1
-moonMaterial.color = new THREE.Color(0x202020);
-const moon = new THREE.Mesh(moonGeometry, moonMaterial);
-moon.position.set(-1.53, .9, 0);
-scene.add(moon);
-
-const moonSphere = gui.addFolder("moon");
-
-moonSphere.add(moon.position, "x").min(-10).max(10).step(0.01);
-moonSphere.add(moon.position, "y").min(-10).max(10).step(0.01);
-moonSphere.add(moon.position, "z").min(-10).max(10).step(0.01);
 
 const light = new THREE.DirectionalLight(0xffffff, 5);
 light.position.set(1, 50, 50);
@@ -179,9 +186,8 @@ scene.add(light);
 // const lightHelper2 = new THREE.PointLightHelper(newPointLight2, 1);
 // scene.add(lightHelper2);
 
-/**
- * Sizes
- */
+// Sizes
+
 const sizes = {
   width: window.innerWidth,
   height: window.innerHeight,
@@ -201,10 +207,6 @@ window.addEventListener("resize", () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
 
-/**
- * Camera
- */
-
 // Base camera
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -221,9 +223,8 @@ scene.add(camera);
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 
-/**
- * Renderer
- */
+// Renderer
+ 
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
   alpha: true,
@@ -231,15 +232,10 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-/**
- * Animate
- */
+
+// Animate
 
 const clock = new THREE.Clock();
-
-// const r = 35;
-// const theta = 0;
-// const dTheta = (2 * Math.PI) / 1000;
 
 const animate = () => {
   const elapsedTime = clock.getElapsedTime();
@@ -255,11 +251,11 @@ const animate = () => {
 
   mesh.rotation.y = 0.5 * elapsedTime;
 
-  moon.rotation.y = 1 * elapsedTime;
+  //  moon.position.set(-1.53, 0.9, 0);
+  //  moon.rotateY(0.02);
+  //  moon.translateX(1.5);
 
-  // theta += dTheta;
-  // moon.position.x = r * Math.cos(theta);
-  // moon.position.z = r * Math.sin(theta);
+  moon.rotation.y = 1 * elapsedTime;
 
   //Update Orbital Controls
   // controls.update();
@@ -267,7 +263,7 @@ const animate = () => {
   // Render
   renderer.render(scene, camera);
 
-  // Call tick again on the next frame
+  // Call animate again on the next frame
   window.requestAnimationFrame(animate);
 };
 
