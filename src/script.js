@@ -68,7 +68,7 @@ const material1 = new THREE.MeshPhongMaterial();
 material1.color = new THREE.Color(0x292929);
 material1.map = newTexture;
 material1.bumpMap = newTexture2;
-material1.bumpScale = 0.05;
+material1.bumpScale = .05;
 material1.specularMap = newTexture3;
 
 const sphere1 = new THREE.Mesh(geometry1, material1);
@@ -107,9 +107,9 @@ scene.add(new THREE.AmbientLight(0x999999, 5));
 //New Sphere
 const moonGeometry = new THREE.SphereGeometry(.25, 32, 32);
 const moonMaterial = new THREE.MeshPhongMaterial();
-moonMaterial.map = newTexture8;
+moonMaterial.map = newTexture6;
 moonMaterial.bumpMap = newTexture9;
-// moonMaterial.bumpScale = .05
+moonMaterial.bumpScale = 10
 moonMaterial.roughness = 1
 moonMaterial.color = new THREE.Color(0x202020);
 const moon = new THREE.Mesh(moonGeometry, moonMaterial);
