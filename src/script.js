@@ -24,7 +24,7 @@ const newTexture5 = new THREE.TextureLoader().load(
 );
 
 const newTexture6 = new THREE.TextureLoader().load(
-  "/textures/moon_texture.jpg"
+  "/textures/moon-surface.jpg"
 );
 
 const newTexture7 = new THREE.TextureLoader().load("/textures/inline_image_preview.jpg")
@@ -32,6 +32,8 @@ const newTexture7 = new THREE.TextureLoader().load("/textures/inline_image_previ
 const newTexture8 = new THREE.TextureLoader().load(
   "/textures/galaxy.jpg"
 );
+
+const newTexture9 = new THREE.TextureLoader().load("/textures/NormalMap(3).png")
 
 // Debug
 const gui = new dat.GUI();
@@ -60,7 +62,7 @@ const sphere = new THREE.Mesh(geometry, material);
 scene.add(sphere);
 
 // New Sphere
-const geometry1 = new THREE.SphereBufferGeometry(0.5, 64, 64);
+const geometry1 = new THREE.SphereBufferGeometry(.5, 64, 64);
 
 const material1 = new THREE.MeshPhongMaterial();
 material1.color = new THREE.Color(0x292929);
@@ -76,9 +78,11 @@ const sphere1 = new THREE.Mesh(geometry1, material1);
 
 scene.add(sphere1);
 
-gui.add(sphere1.position, "x").min(0).max(10).step(0.01);
-gui.add(sphere1.position, "y").min(0).max(10).step(0.01);
-gui.add(sphere1.position, "z").min(0).max(10).step(0.01);
+const firstSphere = gui.addFolder("miniEarth")
+
+firstSphere.add(sphere1.position, "x").min(-10).max(10).step(0.01);
+firstSphere.add(sphere1.position, "y").min(-10).max(10).step(0.01);
+firstSphere.add(sphere1.position, "z").min(-10).max(10).step(0.01);
 
 scene.background = newTexture5;
 
@@ -100,13 +104,23 @@ scene.add(mesh)
 
 scene.add(new THREE.AmbientLight(0x999999, 5));
 
-// New Sphere
-// const moonGeometry = new THREE.SphereGeometry(3, 32, 32);
-// const moonMaterial = new THREE.MeshPhongMaterial();
-// moonMaterial.map = newTexture6;
-// const moon = new THREE.Mesh(moonGeometry, moonMaterial);
-// // moon.position.set(35, 0, 0);
-// scene.add(moon);
+//New Sphere
+const moonGeometry = new THREE.SphereGeometry(.25, 32, 32);
+const moonMaterial = new THREE.MeshPhongMaterial();
+moonMaterial.map = newTexture8;
+moonMaterial.bumpMap = newTexture9;
+// moonMaterial.bumpScale = .05
+moonMaterial.roughness = 1
+moonMaterial.color = new THREE.Color(0x202020);
+const moon = new THREE.Mesh(moonGeometry, moonMaterial);
+moon.position.set(-1.53, .9, 0);
+scene.add(moon);
+
+const moonSphere = gui.addFolder("moon");
+
+moonSphere.add(moon.position, "x").min(-10).max(10).step(0.01);
+moonSphere.add(moon.position, "y").min(-10).max(10).step(0.01);
+moonSphere.add(moon.position, "z").min(-10).max(10).step(0.01);
 
 const light = new THREE.DirectionalLight(0xffffff, 5);
 light.position.set(1, 50, 50);
@@ -241,13 +255,13 @@ const animate = () => {
 
   mesh.rotation.y = 0.5 * elapsedTime;
 
-  // moon.rotation.y = 0.1 * elapsedTime;
+  moon.rotation.y = 1 * elapsedTime;
 
   // theta += dTheta;
   // moon.position.x = r * Math.cos(theta);
   // moon.position.z = r * Math.sin(theta);
 
-  // Update Orbital Controls
+  //Update Orbital Controls
   // controls.update();
 
   // Render
