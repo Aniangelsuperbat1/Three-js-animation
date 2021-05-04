@@ -27,15 +27,15 @@ const newTexture6 = new THREE.TextureLoader().load(
   "/textures/moon-surface.jpg"
 );
 
-const newTexture7 = new THREE.TextureLoader().load("/textures/inline_image_preview.jpg")
-
-const newTexture8 = new THREE.TextureLoader().load(
-  "/textures/galaxy.jpg"
+const newTexture7 = new THREE.TextureLoader().load(
+  "/textures/inline_image_preview.jpg"
 );
 
-const newTexture9 = new THREE.TextureLoader().load("/textures/NormalMap(3).png")
+const newTexture8 = new THREE.TextureLoader().load("/textures/galaxy.jpg");
 
-
+const newTexture9 = new THREE.TextureLoader().load(
+  "/textures/NormalMap(3).png"
+);
 
 // Debug
 const gui = new dat.GUI();
@@ -52,19 +52,19 @@ scene.background = newTexture5;
 // Objects
 
 //New Sphere
-const moonGeometry = new THREE.SphereGeometry(.25, 32, 32);
+const moonGeometry = new THREE.SphereGeometry(0.25, 32, 32);
 
 // Materials
 
 const moonMaterial = new THREE.MeshPhongMaterial();
 moonMaterial.map = newTexture6;
 moonMaterial.bumpMap = newTexture9;
-moonMaterial.bumpScale = 10
-moonMaterial.roughness = 1
+moonMaterial.bumpScale = 10;
+moonMaterial.roughness = 1;
 moonMaterial.color = new THREE.Color(0x202020);
 
 const moon = new THREE.Mesh(moonGeometry, moonMaterial);
-moon.position.set(-1.53, .9, 0);
+moon.position.set(-1.53, 0.9, 0);
 scene.add(moon);
 
 const moonSphere = gui.addFolder("moon");
@@ -85,7 +85,7 @@ material.transparent = true;
 
 // Mesh
 const sphere = new THREE.Mesh(geometry, material);
-sphere.add(moon)
+sphere.add(moon);
 scene.add(sphere);
 
 // New Sphere
@@ -95,7 +95,7 @@ const material1 = new THREE.MeshPhongMaterial();
 material1.color = new THREE.Color(0x292929);
 material1.map = newTexture;
 material1.bumpMap = newTexture2;
-material1.bumpScale = .05;
+material1.bumpScale = 0.05;
 material1.specularMap = newTexture3;
 
 const sphere1 = new THREE.Mesh(geometry1, material1);
@@ -105,7 +105,7 @@ const sphere1 = new THREE.Mesh(geometry1, material1);
 
 scene.add(sphere1);
 
-const firstSphere = gui.addFolder("miniEarth")
+const firstSphere = gui.addFolder("miniEarth");
 
 firstSphere.add(sphere1.position, "x").min(-10).max(10).step(0.01);
 firstSphere.add(sphere1.position, "y").min(-10).max(10).step(0.01);
@@ -125,7 +125,7 @@ const material5 = new THREE.MeshBasicMaterial();
 material5.map = newTexture7;
 material5.side = THREE.BackSide;
 const mesh = new THREE.Mesh(geometry5, material5);
-scene.add(mesh)
+scene.add(mesh);
 
 scene.add(new THREE.AmbientLight(0x999999, 5));
 
@@ -133,7 +133,7 @@ const light = new THREE.DirectionalLight(0xffffff, 5);
 light.position.set(1, 50, 50);
 scene.add(light);
 
-// //Light 1
+// // //Light 1
 
 // const pointLight = new THREE.PointLight(0xffffff, 0.1);
 // pointLight.position.x = 2;
@@ -141,7 +141,7 @@ scene.add(light);
 // pointLight.position.z = 4;
 // scene.add(pointLight);
 
-//Light 2
+// // Light 2
 // const newPointLight = new THREE.PointLight(0xffffff);
 // newPointLight.position.set(10, 50, 50);
 // newPointLight.intensity = 10;
@@ -181,7 +181,7 @@ scene.add(light);
 //   newPointLight2.color.set(light3Color.color);
 // });
 
-// // Light helper
+// Light helper
 
 // const lightHelper2 = new THREE.PointLightHelper(newPointLight2, 1);
 // scene.add(lightHelper2);
@@ -221,17 +221,17 @@ scene.add(camera);
 
 //Controls
 const controls = new OrbitControls(camera, canvas);
-controls.enableDamping = true;
+// controls.enableDamping = true;
+controls.autoRotate = true;
 
 // Renderer
- 
+
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
   alpha: true,
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
 
 // Animate
 
@@ -258,7 +258,7 @@ const animate = () => {
   moon.rotation.y = 1 * elapsedTime;
 
   //Update Orbital Controls
-  // controls.update();
+  controls.update();
 
   // Render
   renderer.render(scene, camera);
